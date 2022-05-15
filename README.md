@@ -1,21 +1,45 @@
-## Установка clickhouse и vector
+## Установка clickhouse, vector, lighthouse в Yandex.Cloud
 
-Данный playbook:
- - Устанавливает clichouse
- - Устанавливает vector
- - Запускает службу clichouse-server
- - Запускает службу vector
- - Создает базу `logs` в clichouse 
+Данный playbook создает три виртуальные машины в YC и автоматически устанавливает на них clichouse (node01.netology.cloud), vector (node02.netology.cloud), lighthouse (node03.netology.cloud)
 
-Для работы playbook необходимо:
- - Добавить ip-адрес сервера в [inventory](./src/playbook/inventory/prod.yml) файл
- - Указать имя пользователя в [inventory](./src/playbook/inventory/prod.yml) файле
- - В файлах [vars](./src/playbook/group_vars/)'ов указать необходимые версии дистрибутивов. Их можно посмотреть на официальных сайтах [clichouse](https://packages.clickhouse.com/rpm/stable/) и [vector](https://packages.timber.io/vector/)
- - Скопировать свой публичный ssl ключ на удаленный сервер
+#### Детальное описание:
+
+На node01.netology.cloud бует установлено 3 пакета:
+  - clickhouse-client
+  - clickhouse-server
+  - clickhouse-common-static  
+
+Служба clickhouse-server будет запущена  
+
+---
+На node02.netology.cloud будет установлен пакет `vector`, служба будет запущена
+
+---
+На node03.netology.cloud булет установлено:
+- git
+- apache
+- lighthouse
+
+Служба apache будет запущена
+
+---
+#### Подготовка:  
+Предварительно необходимо добавить в env $YC_TOKEN командой:
 ```bash
-$ ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.1.216
+export YC_TOKEN=`yc iam create-token`
 ```
- - Запустить playbook:
+Ваш публичный ssh ключ должен находиться в дефолтной директории: `~/.ssh/id_rsa.pub`   
+
+В файле `./src/terraform/variables.tf` необходимо указать Ваши id в `yandex_cloud_id` и `yandex_folder_id`  
+
+Запуск playbook'а осуществляется из директории `./src/terraform` командами:
 ```bash
-$ ansible-playbook -i inventory/prod.yml site.yml
+$ terraform init
+$ terraform plan
+$ terraform apply -auto-approve
 ```
+#### Результат
+Зайдя по адресу `external_ip_address_node03_yandex_cloud` будет доступен web-интерфейс lighthouse:
+<p align="center">
+  <img width="970" height="560" src="./img/LightHouse.png">
+</p> 
