@@ -10,7 +10,7 @@ resource "null_resource" "wait" {
 
 resource "null_resource" "site" {
   provisioner "local-exec" {
-    command = "ansible-playbook -i ../ansible/inventory ../ansible/site.yml --diff"
+    command = "ansible-playbook -i ../ansible/inventory ../ansible/site.yml"
   }
 
   depends_on = [
