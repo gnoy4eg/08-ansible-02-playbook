@@ -1,6 +1,11 @@
 ## Установка clickhouse, vector, lighthouse в Yandex.Cloud
 
-Данный playbook создает три виртуальные машины в YC и автоматически устанавливает на них clichouse (node01.netology.cloud), vector (node02.netology.cloud), lighthouse (node03.netology.cloud)
+Данный playbook создает три виртуальные машины в YC и автоматически устанавливает на них clichouse (node01.netology.cloud), vector (node02.netology.cloud), lighthouse (node03.netology.cloud).  
+Clichouse, vector, lighthouse устанавливаются через роли.  
+Репозитории ролей:  
+- [clichouse](https://github.com/AlexeySetevoi/ansible-clickhouse.git)
+- [vector](https://github.com/gnoy4eg/vector-role.git)
+- [lighthouse](https://github.com/gnoy4eg/lighthouse-role.git)
 
 #### Детальное описание:
 
